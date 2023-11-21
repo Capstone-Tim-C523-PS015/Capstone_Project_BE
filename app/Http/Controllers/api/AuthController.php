@@ -83,7 +83,7 @@ class AuthController extends Controller
         }
 
         if(!auth()->guard('api')->check()){
-            return response()->json(['message' => 'anda sudah logout/token tidak valid']);
+            return response()->json(['message' => 'anda sudah logout/token tidak valid'],400);
         }
 
         Auth::guard('api')->logout();
