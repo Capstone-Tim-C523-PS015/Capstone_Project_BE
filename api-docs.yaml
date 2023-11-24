@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: SIB 5 - Casptone Project API Documentation
+  description: Documentation for Capstone Project SIB Cycle 5
+servers:
+  - url: https://be.gunz.my.id/api
+tags: 
+  - name: auth
+    description: API for authentication
+paths:
+  /login:
+    post:
+      summary: memverifikasi data login dan me-return jwt token
+      tags: 
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: tes123@gmail.com
+                password:
+                  type: string
+                  example: 12345678
+      responses:
+        '200':
+          description: response jika berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyjwwklwj......
+        '400':
+          description: response jika data jika data yang dikirimkan tidak valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: data tidak valid
+        '401':
+          description: response jika data jika username/password salah
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: username atau password salah
+  /register:
+    post:
+      summary: menambahkan user baru dan mereturn data user baru
+      tags: 
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: tes123
+                email:
+                  type: string
+                  example: tes123@gmail.com
+                password:
+                  type: string
+                  example: 12345678
+      responses:
+        '200':
+          description: response jika berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: register berhasil
+                  user:
+                    type: object
+                    example: 
+                      name: tes123
+                      email: tes123@gmail.com
+                      password: 12345678
+                      created_at: 2023-11-23T00:15:46.000000Z
+                      updated_at: 2023-11-23T00:15:46.000000Z
+        '400':
+          description: response jika data jika data yang dikirimkan tidak valid
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/notvalid'
+                  - $ref: '#/components/schemas/duplicate'
+components:
+  schemas:
+    notvalid:
+      type: object
+      properties:
+        message:
+          type: string
+          example: data tidak valid
+    duplicate:
+      type: object
+      properties:
+        message:
+          type: string
+          example: email sudah digunakan

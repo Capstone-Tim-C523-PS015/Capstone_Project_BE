@@ -1,39 +1,26 @@
-## Cara install
+# Lumen PHP Framework
 
--   Clone this repository
+[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
+[![Total Downloads](https://img.shields.io/packagist/dt/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
+[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
+[![License](https://img.shields.io/packagist/l/laravel/lumen)](https://packagist.org/packages/laravel/lumen-framework)
 
-```sh
-git clone https://github.com/IlhamM3/Capstone_Project.git
-# make sure you are in the folder
-cd (folder yang sudah diclone tadi)
-```
+Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
 
--   Install semua package
+> **Note:** In the years since releasing Lumen, PHP has made a variety of wonderful performance improvements. For this reason, along with the availability of [Laravel Octane](https://laravel.com/docs/octane), we no longer recommend that you begin new projects with Lumen. Instead, we recommend always beginning new projects with [Laravel](https://laravel.com).
 
-```sh
-composer install
-```
+## Official Documentation
 
--   Copy/rename file .env.example to .env
+Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
 
-```sh
-# windows
-copy .env.example .env
+## Contributing
 
-```
+Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-```sh
-php artisan key:generate
-php artisan migrate:fresh --seed
-```
+## Security Vulnerabilities
 
-- Menjalankan web
-```sh
-php artisan serve dan npm run dev (diberbeda terminal)
-```
--   And go to http://localhost:8000/
+If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-## Cara refresh branch local vsc
-```sh
-git fetch
-```
+## License
+
+The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
