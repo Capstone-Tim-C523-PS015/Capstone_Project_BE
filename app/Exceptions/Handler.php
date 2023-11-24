@@ -53,12 +53,12 @@ class Handler extends ExceptionHandler
         if($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
             return response()->json(['message' => 'path tidak ditemukan'], 404);
         }
-        if($exception instanceof \Exception){
-            return response()->json([
-                'message' => 'server error',
-                'error' => $exception
-            ], 500);
-        }
+        // if($exception instanceof \Exception){
+        //     return response()->json([
+        //         'message' => 'server error',
+        //         'error' => $exception
+        //     ], 500);
+        // }
         return parent::render($request, $exception);
     }
 }
