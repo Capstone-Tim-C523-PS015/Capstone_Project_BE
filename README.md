@@ -23,17 +23,21 @@ copy .env.example .env
 ```
 
 ```sh
-php artisan key:generate
+php artisan jwt:secret
 php artisan migrate:fresh --seed
 ```
 
 - Menjalankan web
 ```sh
-php artisan serve dan npm run dev (diberbeda terminal)
+php -S 127.0.0.1:8000 -t public
 ```
 -   And go to http://localhost:8000/
 
 ## Cara refresh branch local vsc
 ```sh
 git fetch
+```
+jika masih sering terjadi commit jalankan perintah
+```sh
+git pull
 ```
