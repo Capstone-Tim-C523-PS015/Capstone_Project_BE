@@ -63,8 +63,8 @@ class UserController extends Controller
                 }
 
                 $pfImage = env('APP_URL') . '/profile/default.png';
-                $image = $request->file('profileImage');
-                if ($image) {
+                if ($request->file('profileImage')) {
+                    $image = $request->file('profileImage');
                     if ($user->profileImage != $pfImage) {
                         $path = explode("/", $user->profileImage);
                         $path = array_slice($path, 3);
