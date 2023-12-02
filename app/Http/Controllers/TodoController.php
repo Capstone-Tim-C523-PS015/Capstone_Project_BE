@@ -22,7 +22,8 @@ class TodoController extends Controller
             $userId = auth()->payload()['sub'];
             $todos = Todo::where(['userId' => $userId])->latest()->get();
             return response()->json([
-                'message' => 'data ditemukan',
+                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
+                'total' => $todos->count(),
                 'todos' => $todos,
             ]);
         }
