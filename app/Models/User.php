@@ -14,14 +14,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
-    protected $guarded = [
-        // 'name', 'email',
-    ];
+    protected $guarded = [ 'id' ];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -32,21 +25,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         // 'password',
     ];
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     * 
-     * @return mixed
-     */
     function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
     function getJWTCustomClaims()
     {
         return [];

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,23 +12,23 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    function login(Request $request) {
-        if(auth()->check()){
+    function login(Request $request)
+    {
+        if (auth()->check()) {
             return response()->json(['message' => 'kamu sudah login'], 400);
         }
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required',
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json(['message' => 'data tidak valid'], 400);
         }
 
-        $creadential = $request->only(['email', 'password']);
-        $token = auth()->attempt($creadential);
+        $token = auth()->attempt($request->only(['email', 'password']));
 
-        if(!$token){
+        if (!$token) {
             return response()->json(['message' => 'username atau password salah'], 401);
         }
 
@@ -36,19 +38,21 @@ class AuthController extends Controller
         ]);
     }
 
-    function register(Request $request) {
-        if(auth()->check()){
-            return response()->json(['message' => 'kamu sudah login'], 400);
+    function register(Request $request)
+    {
+        if($request->bearerToken()){
+            if (auth()->check()) {
+                return response()->json(['message' => 'kamu sudah login'], 400);
+            }
         }
 
-        try{
+        try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required',
                 'password' => 'required',
             ]);
-
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json(['message' => 'data tidak valid'], 400);
             }
 
@@ -62,27 +66,27 @@ class AuthController extends Controller
                 'message' => 'register berhasil',
                 'user' => $user,
             ], 201);
-        }
-        catch(QueryException $e){
+        } catch (QueryException $e) {
             $message = $e->errorInfo[2];
-            if($e->errorInfo[1] == 1062){
+            if ($e->errorInfo[1] == 1062) {
                 $message = 'email sudah digunakan';
             }
             return response()->json([
                 'message' => $message,
-            ],400);
+            ], 400);
         }
     }
 
-    function logout(Request $request) {
-        if(!$request->bearerToken()){
+    function logout(Request $request)
+    {
+        if (!$request->bearerToken()) {
             return response()->json([
                 'message' => 'token diperlukan',
-            ],401);
+            ], 401);
         }
 
-        if(!auth()->check()){
-            return response()->json(['message' => 'token tidak valid'],400);
+        if (!auth()->check()) {
+            return response()->json(['message' => 'token tidak valid'], 400);
         }
 
         Auth::logout();
