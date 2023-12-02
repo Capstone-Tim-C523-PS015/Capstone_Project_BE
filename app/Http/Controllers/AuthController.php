@@ -50,7 +50,7 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required',
-                'password' => 'required',
+                'password' => 'required|min:3',
             ]);
             if ($validator->fails()) {
                 return response()->json(['message' => 'data tidak valid'], 400);

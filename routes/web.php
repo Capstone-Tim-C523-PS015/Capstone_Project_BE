@@ -21,5 +21,6 @@ $router->group(['prefix' => 'todo'], function() use($router){
 $router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/', 'UserController@index');
     $router->post('/', 'UserController@update');
+    $router->put('/password', 'UserController@updatePassword');
     $router->delete('/', 'UserController@delete');
 });

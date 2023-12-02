@@ -54,7 +54,6 @@ class UserController extends Controller
                 $validator = Validator::make($request->all(), [
                     'name' => 'required',
                     'email' => 'required',
-                    'password' => 'required',
                     'description' => 'required',
                     'profileImage' => 'mimes:jpg,png',
                 ]);
@@ -68,9 +67,9 @@ class UserController extends Controller
                     if ($user->profileImage != $pfImage) {
                         $path = explode("/", $user->profileImage);
                         $path = array_slice($path, 3);
-                        $path = public_path().'/'.implode("/", $path);
+                        $path = public_path() . '/' . implode("/", $path);
 
-                        if(file_exists($path)){
+                        if (file_exists($path)) {
                             unlink($path);
                         }
                     }
@@ -82,7 +81,6 @@ class UserController extends Controller
                 $user->update([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'password' => bcrypt($request->password),
                     'description' => $request->description,
                     'profileImage' => $pfImage,
                 ]);
@@ -107,6 +105,42 @@ class UserController extends Controller
         }
     }
 
+    function updatePassword(Request $request)
+    {
+        if (!$request->bearerToken()) {
+            return response()->json(['message' => 'token diperlukan'], 401);
+        } else {
+            if (!auth()->check()) {
+                return response()->json(['message' => 'token tidak valid'], 401);
+            }
+            $validator = Validator::make($request->all(), [
+                'password' => 'required',
+                'new_password' => 'required|confirmed|min:3',
+                'new_password_confirmation' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return $validator->getMessageBag();
+                return response()->json(['message' => 'data tidak valid'], 400);
+            }
+
+            $id = auth()->payload()['sub'];
+            $user = User::find($id);
+            if (!$user) {
+                return response()->json(['message' => 'user tidak ditemukan'], 404);
+            }
+            if (!app('hash')->check($request->password, $user->password)) {
+                return response()->json([
+                    'message' => "password salah",
+                ], 403);
+            }
+            $user->update(['password' => bcrypt($request->password)]);
+
+            return response()->json([
+                'message' => "password berhasil diperbarui",
+            ]);
+        }
+    }
+
     function delete(Request $request)
     {
         if (!$request->bearerToken()) {
@@ -127,9 +161,9 @@ class UserController extends Controller
             if ($user->profileImage != $pfImage) {
                 $path = explode("/", $user->profileImage);
                 $path = array_slice($path, 3);
-                $path = public_path().'/'.implode("/", $path);
+                $path = public_path() . '/' . implode("/", $path);
 
-                if(file_exists($path)){
+                if (file_exists($path)) {
                     unlink($path);
                 }
             }
