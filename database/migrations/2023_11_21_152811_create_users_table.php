@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('profileImage')->default($pfImage);
             $table->timestamps();
         });
