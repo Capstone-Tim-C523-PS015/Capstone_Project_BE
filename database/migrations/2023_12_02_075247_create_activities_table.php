@@ -14,11 +14,13 @@ return new class extends Migration
             $table->string('description');
             $table->timestamp('deadline');
             $table->boolean('isNotificate')->default(true);
-            $table->foreignId('categoryId')->references('id')->on('categories');
+            $table->enum('categoryId', ['task', 'event']);
             $table->timestamps();
+            $table->foreignId('userId')->references('id')->on('users');
+            // $table->foreignId('categoryId')->references('id')->on('categories');
         });
     }
-    
+
     public function down(): void
     {
         Schema::dropIfExists('activities');

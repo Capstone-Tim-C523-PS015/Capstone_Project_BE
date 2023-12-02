@@ -1,7 +1,7 @@
 <?php
 
 $router->get('/', function () {
-    return response()->json(['message' => 'hello world']);
+    return response()->json(['message' => 'capstone project C523-PS015 - backend']);
 });
 
 $router->group(['prefix' => 'auth'], function () use ($router) {
