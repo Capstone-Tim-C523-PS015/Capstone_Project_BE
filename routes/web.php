@@ -20,13 +20,14 @@ $router->group(['prefix' => 'user'], function () use ($router) {
 $router->group(['prefix' => 'todo'], function() use($router){
     $router->get('/', 'TodoController@all');
     $router->get('/{id}', 'TodoController@single');
+    $router->post('/', 'TodoController@store');
+    $router->put('/{id}', 'TodoController@update');
+    $router->delete('/{id}', 'TodoController@delete');
+    
     $router->get('/now', 'TodoController@now');
     $router->get('/tomorrow', 'TodoController@tomorrow');
     $router->get('/yesterday', 'TodoController@yesterday');
     $router->get('/span', 'TodoController@span');
-    $router->post('/', 'TodoController@store');
-    $router->put('/{id}', 'TodoController@update');
-    $router->delete('/{id}', 'TodoController@delete');
 });
 
 $router->group(['prefix' => 'activity'], function () use ($router) {

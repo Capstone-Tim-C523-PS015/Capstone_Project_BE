@@ -4,12 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\Todo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class TodoController extends Controller
 {
+    function all(Request $request)
+    {
+        if (!$request->bearerToken()) {
+            return response()->json(['message' => 'token dibutuhkan'], 401);
+        } else {
+            if (!auth()->check()) {
+                return response()->json(['message' => 'token tidak valid'], 401);
+            }
+
+            $userId = auth()->payload()['sub'];
+            $todos = Todo::where(['userId' => $userId])->latest()->get();
+            return response()->json([
+                'message' => 'data ditemukan',
+                'todos' => $todos,
+            ]);
+        }
+    }
+
+    function single(Request $request, $id)
+    {
+        if (!$request->bearerToken()) {
+            return response()->json(['message' => 'token dibutuhkan'], 401);
+        } else {
+            if (!auth()->check()) {
+                return response()->json(['message' => 'token tidak valid'], 401);
+            }
+
+            $todo = Todo::find($id);
+            if (!$todo) {
+                return response()->json(['message' => 'data tidak ditemukan'], 404);
+            }
+
+            return response()->json([
+                'message' => "data ditemukan",
+                'todo' => $todo,
+            ]);
+        }
+    }
     
     function store(Request $request)
     {
@@ -99,45 +137,6 @@ class TodoController extends Controller
         }
     }
 
-    function all(Request $request)
-    {
-        if (!$request->bearerToken()) {
-            return response()->json(['message' => 'token dibutuhkan'], 401);
-        } else {
-            if (!auth()->check()) {
-                return response()->json(['message' => 'token tidak valid'], 401);
-            }
-
-            $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->latest()->get();
-            return response()->json([
-                'message' => 'data ditemukan',
-                'todos' => $todos,
-            ]);
-        }
-    }
-
-    function single(Request $request, $id)
-    {
-        if (!$request->bearerToken()) {
-            return response()->json(['message' => 'token dibutuhkan'], 401);
-        } else {
-            if (!auth()->check()) {
-                return response()->json(['message' => 'token tidak valid'], 401);
-            }
-
-            $todo = Todo::find($id);
-            if (!$todo) {
-                return response()->json(['message' => 'data tidak ditemukan'], 404);
-            }
-
-            return response()->json([
-                'message' => "data ditemukan",
-                'todo' => $todo,
-            ]);
-        }
-    }
-
     function now(Request $request)
     {
         if (!$request->bearerToken()) {
@@ -217,7 +216,6 @@ class TodoController extends Controller
 
             $from = Carbon::parse($request->from);
             $to = Carbon::parse($request->to)->addDay();
-            // return [$from, $to];
 
             $userId = auth()->payload()['sub'];
             $todos = Todo::where(['userId' => $userId])->whereBetween('deadline', [$from, $to])->get();
