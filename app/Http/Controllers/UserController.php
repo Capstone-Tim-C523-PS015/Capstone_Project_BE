@@ -62,9 +62,9 @@ class UserController extends Controller
                     return response()->json(['message' => 'data tidak valid'], 400);
                 }
 
+                $pfImage = env('APP_URL') . '/profile/default.png';
                 $image = $request->file('profileImage');
                 if ($image) {
-                    $pfImage = env('APP_URL') . '/profile/default.png';
                     if ($user->profileImage != $pfImage) {
                         $path = explode("/", $user->profileImage);
                         $path = array_slice($path, 3);
