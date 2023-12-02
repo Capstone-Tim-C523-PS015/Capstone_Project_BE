@@ -10,6 +10,11 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('description');
+            $table->timestamp('deadline');
+            $table->boolean('isNotificate')->default(true);
+            $table->foreignId('categoryId')->references('id')->on('categories');
             $table->timestamps();
         });
     }
