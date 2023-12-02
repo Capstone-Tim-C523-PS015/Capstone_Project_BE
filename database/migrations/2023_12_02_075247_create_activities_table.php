@@ -10,10 +10,17 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('description');
+            $table->timestamp('deadline');
+            $table->boolean('isNotificate')->default(true);
+            $table->enum('category', ['task', 'event']);
             $table->timestamps();
+            $table->foreignId('userId')->references('id')->on('users');
+            // $table->foreignId('categoryId')->references('id')->on('categories');
         });
     }
-    
+
     public function down(): void
     {
         Schema::dropIfExists('activities');

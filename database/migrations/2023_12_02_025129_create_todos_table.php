@@ -16,7 +16,6 @@ return new class extends Migration
             $table->enum('status', ['menunggu', 'dikerjakan', 'terlambat', 'selesai', 'revisi']);
             $table->timestamps();
             $table->foreignId('userId')->references('id')->on('users');
-            $table->foreignId('categoryId')->references('id')->on('categories');
         });
     }
     

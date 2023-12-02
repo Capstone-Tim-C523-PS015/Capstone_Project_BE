@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
@@ -21,6 +22,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'gunz',
             'email' => 'gunz@mail.com',
             'password' => Hash::make('123'),
+        ]);
+
+        Category::create([
+            'name' => 'task',
         ]);
     }
 }

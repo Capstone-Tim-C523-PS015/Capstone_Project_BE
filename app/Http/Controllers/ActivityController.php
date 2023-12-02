@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Todo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
-class TodoController extends Controller
+class ActivityController extends Controller
 {
     function all(Request $request)
     {
@@ -20,15 +19,15 @@ class TodoController extends Controller
             }
 
             $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->latest()->get();
+            $activities = Activity::where(['userId' => $userId])->latest()->get();
             return response()->json([
-                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
-                'total' => $todos->count(),
-                'todos' => $todos,
+                'message' => 'data ditemukan',
+                'total' => $activities->count(),
+                'activities' => $activities,
             ]);
         }
     }
-
+    
     function single(Request $request, $id)
     {
         if (!$request->bearerToken()) {
@@ -38,14 +37,14 @@ class TodoController extends Controller
                 return response()->json(['message' => 'token tidak valid'], 401);
             }
 
-            $todo = Todo::find($id);
-            if (!$todo) {
+            $activity = Activity::find($id);
+            if (!$activity) {
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
 
             return response()->json([
                 'message' => "data ditemukan",
-                'todo' => $todo,
+                'activity' => $activity,
             ]);
         }
     }
@@ -62,6 +61,7 @@ class TodoController extends Controller
             $validator = Validator::make($request->all(), [
                 'title' => 'required',
                 'description' => 'required',
+                'category' => 'required',
                 'deadline' => 'required',
                 'status' => 'required',
             ]);
@@ -70,17 +70,18 @@ class TodoController extends Controller
             }
 
             $id = auth()->payload()['sub'];
-            $todo = Todo::create([
+            $activity = Activity::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'deadline' => $request->deadline,
                 'status' => $request->status,
+                'category' => $request->category,
                 'userId' => $id,
             ]);
 
             return response()->json([
                 'message' => "data berhasil ditambahkan",
-                'todo' => $todo,
+                'activity' => $activity,
             ]);
         }
     }
@@ -97,6 +98,7 @@ class TodoController extends Controller
             $validator = Validator::make($request->all(), [
                 'title' => 'required',
                 'description' => 'required',
+                'category' => 'required',
                 'deadline' => 'required',
                 'status' => 'required',
             ]);
@@ -104,15 +106,15 @@ class TodoController extends Controller
                 return response()->json(['message' => 'data tidak valid', 'request' => $request->all()], 400);
             }
 
-            $todo = Todo::find($id);
-            if (!$todo) {
+            $activity = Activity::find($id);
+            if (!$activity) {
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
-            $todo->update($request->only(['title', 'description', 'deadline', 'status']));
+            $activity->update($request->only(['title', 'description', 'category', 'deadline', 'status']));
 
             return response()->json([
                 'message' => "data berhasil diperbarui",
-                'todo' => $todo,
+                'activity' => $activity,
             ]);
         }
     }
@@ -126,11 +128,11 @@ class TodoController extends Controller
                 return response()->json(['message' => 'token tidak valid'], 401);
             }
 
-            $todo = Todo::find($id);
-            if (!$todo) {
+            $activity = Activity::find($id);
+            if (!$activity) {
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
-            $todo->delete();
+            $activity->delete();
 
             return response()->json([
                 'message' => "data berhasil dihapus",
@@ -148,12 +150,12 @@ class TodoController extends Controller
             }
 
             $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->whereDate('deadline', Carbon::today())->get();
+            $activities = Activity::where(['userId' => $userId])->whereDate('deadline', Carbon::today())->get();
 
             return response()->json([
-                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
-                'total' => $todos->count(),
-                'todos' => $todos,
+                'message' => $activities->count() > 0 ? "data ditemukan" : "data kosong",
+                'total' => $activities->count(),
+                'activities' => $activities,
             ]);
         }
     }
@@ -168,12 +170,12 @@ class TodoController extends Controller
             }
 
             $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->whereDate('deadline', Carbon::today()->subDay())->get();
+            $activities = Activity::where(['userId' => $userId])->whereDate('deadline', Carbon::today()->subDay())->get();
 
             return response()->json([
-                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
-                'total' => $todos->count(),
-                'todos' => $todos,
+                'message' => $activities->count() > 0 ? "data ditemukan" : "data kosong",
+                'total' => $activities->count(),
+                'activities' => $activities,
             ]);
         }
     }
@@ -188,12 +190,12 @@ class TodoController extends Controller
             }
 
             $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->whereDate('deadline', Carbon::today()->addDay())->get();
+            $activities = Activity::where(['userId' => $userId])->whereDate('deadline', Carbon::today()->addDay())->get();
 
             return response()->json([
-                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
-                'total' => $todos->count(),
-                'todos' => $todos,
+                'message' => $activities->count() > 0 ? "data ditemukan" : "data kosong",
+                'total' => $activities->count(),
+                'activities' => $activities,
             ]);
         }
     }
@@ -219,12 +221,12 @@ class TodoController extends Controller
             $to = Carbon::parse($request->to)->addDay();
 
             $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->whereBetween('deadline', [$from, $to])->get();
+            $activities = Activity::where(['userId' => $userId])->whereBetween('deadline', [$from, $to])->get();
 
             return response()->json([
-                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
-                'total' => $todos->count(),
-                'todos' => $todos,
+                'message' => $activities->count() > 0 ? "data ditemukan" : "data kosong",
+                'total' => $activities->count(),
+                'activities' => $activities,
             ]);
         }
     }
