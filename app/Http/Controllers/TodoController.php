@@ -69,13 +69,13 @@ class TodoController extends Controller
                 return response()->json(['message' => 'data tidak valid', 'request' => $request->all()], 400);
             }
 
-            $id = auth()->payload()['sub'];
+            $userId = auth()->payload()['sub'];
             $todo = Todo::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'deadline' => $request->deadline,
                 'status' => $request->status,
-                'userId' => $id,
+                'userId' => $userId,
             ]);
 
             return response()->json([
@@ -225,6 +225,42 @@ class TodoController extends Controller
                 'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
                 'total' => $todos->count(),
                 'todos' => $todos,
+            ]);
+        }
+    }
+    
+    function history(Request $request) {
+        if (!$request->bearerToken()) {
+            return response()->json(['message' => 'token dibutuhkan'], 401);
+        } else {
+            if (!auth()->check()) {
+                return response()->json(['message' => 'token tidak valid'], 401);
+            }
+
+            $userId = auth()->payload()['sub'];
+            $todos = Todo::where(['userId' => $userId])->whereIn('status', ['revisi','selesai'])->get();
+            $revisi = [];
+            $selesai = [];
+            foreach ($todos as $todo) {
+                if($todo->status == 'revisi'){
+                    $revisi[] = $todo;
+                }else{
+                    $selesai[] = $todo;
+                }
+            }
+
+            return response()->json([
+                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
+                'todos' => [
+                    'revisi' => [
+                        'total' => count($revisi),
+                        'data' => $revisi,
+                    ],
+                    'selesai' => [
+                        'total' => count($selesai),
+                        'data' => $selesai,
+                    ],
+                ],
             ]);
         }
     }
