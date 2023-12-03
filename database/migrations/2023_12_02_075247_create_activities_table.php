@@ -13,11 +13,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->timestamp('deadline');
-            $table->boolean('isNotificate')->default(true);
+            $table->boolean('isNotificate');
             $table->enum('category', ['task', 'event']);
             $table->timestamps();
             $table->foreignId('userId')->references('id')->on('users');
-            // $table->foreignId('categoryId')->references('id')->on('categories');
         });
     }
 

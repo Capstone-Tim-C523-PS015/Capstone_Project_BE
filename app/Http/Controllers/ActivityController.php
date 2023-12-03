@@ -63,22 +63,22 @@ class ActivityController extends Controller
                 'description' => 'required',
                 'category' => 'required',
                 'deadline' => 'required',
-                'status' => 'required',
                 'isNotificate' => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['message' => 'data tidak valid', 'request' => $request->all()], 400);
             }
+            // $isNotificate = filter_var($request->isNotificate, FILTER_VALIDATE_BOOL);
+            $isNotificate = $request->isNotificate == "true" || $request->isNotificate === true || $request->isNotificate == 1 ;
 
-            $id = auth()->payload()['sub'];
+            $userId = auth()->payload()['sub'];
             $activity = Activity::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'deadline' => $request->deadline,
-                'status' => $request->status,
                 'category' => $request->category,
-                'userId' => $id,
-                'isNotificate' => $request->isNotificate,
+                'deadline' => $request->deadline,
+                'isNotificate' => $isNotificate,
+                'userId' => $userId,
             ]);
 
             return response()->json([
@@ -102,7 +102,6 @@ class ActivityController extends Controller
                 'description' => 'required',
                 'category' => 'required',
                 'deadline' => 'required',
-                'status' => 'required',
                 'isNotificate' => 'required',
             ]);
             if ($validator->fails()) {
@@ -113,7 +112,15 @@ class ActivityController extends Controller
             if (!$activity) {
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
-            $activity->update($request->only(['title', 'description', 'category', 'deadline', 'status', 'isNotificate']));
+
+            $isNotificate = $request->isNotificate == "true" || $request->isNotificate === true || $request->isNotificate == 1 ;
+            $activity->update($request->only([
+                'title' => $request->title,
+                'description' => $request->description,
+                'category' => $request->category,
+                'deadline' => $request->deadline,
+                'isNotificate' => $isNotificate,
+            ]));
 
             return response()->json([
                 'message' => "data berhasil diperbarui",
