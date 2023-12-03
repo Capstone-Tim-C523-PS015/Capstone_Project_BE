@@ -64,6 +64,7 @@ class ActivityController extends Controller
                 'category' => 'required',
                 'deadline' => 'required',
                 'status' => 'required',
+                'isNotificate' => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['message' => 'data tidak valid', 'request' => $request->all()], 400);
@@ -77,6 +78,7 @@ class ActivityController extends Controller
                 'status' => $request->status,
                 'category' => $request->category,
                 'userId' => $id,
+                'isNotificate' => $request->isNotificate,
             ]);
 
             return response()->json([
@@ -101,6 +103,7 @@ class ActivityController extends Controller
                 'category' => 'required',
                 'deadline' => 'required',
                 'status' => 'required',
+                'isNotificate' => 'required',
             ]);
             if ($validator->fails()) {
                 return response()->json(['message' => 'data tidak valid', 'request' => $request->all()], 400);
@@ -110,7 +113,7 @@ class ActivityController extends Controller
             if (!$activity) {
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
-            $activity->update($request->only(['title', 'description', 'category', 'deadline', 'status']));
+            $activity->update($request->only(['title', 'description', 'category', 'deadline', 'status', 'isNotificate']));
 
             return response()->json([
                 'message' => "data berhasil diperbarui",
