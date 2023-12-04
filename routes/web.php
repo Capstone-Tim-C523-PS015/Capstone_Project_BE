@@ -23,6 +23,7 @@ $router->group(['prefix' => 'todo'], function() use($router){
     $router->get('yesterday', 'TodoController@yesterday');
     $router->get('span', 'TodoController@span');
     $router->get('history', 'TodoController@history');
+    $router->get('priority', 'TodoController@priority');
 
     $router->get('/', 'TodoController@all');
     $router->get('/{id}', 'TodoController@single');

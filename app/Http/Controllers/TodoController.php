@@ -264,4 +264,58 @@ class TodoController extends Controller
             ]);
         }
     }
+    
+    function priority(Request $request) {
+        if (!$request->bearerToken()) {
+            return response()->json(['message' => 'token dibutuhkan'], 401);
+        } else {
+            if (!auth()->check()) {
+                return response()->json(['message' => 'token tidak valid'], 401);
+            }
+
+            $userId = auth()->payload()['sub'];
+            $todos = Todo::where(['userId' => $userId])->get();
+            $mendesak = [];
+            $penting = [];
+            $menunggu = [];
+            $selesai = [];
+
+            foreach ($todos as $todo) {
+                if($todo->status == 'revisi' || $todo->status == 'telat'){
+                    $mendesak[] = $todo;
+                }
+                if($todo->status == 'dikerjakan'){
+                    $penting[] = $todo;
+                }
+                if($todo->status == 'menunggu'){
+                    $menunggu[] = $todo;
+                }
+                else{
+                    $selesai[] = $todo;
+                }
+            }
+
+            return response()->json([
+                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
+                'todos' => [
+                    'mendesak' => [
+                        'total' => count($mendesak),
+                        'data' => $mendesak,
+                    ],
+                    'penting' => [
+                        'total' => count($penting),
+                        'data' => $penting,
+                    ],
+                    'menunggu' => [
+                        'total' => count($menunggu),
+                        'data' => $menunggu,
+                    ],
+                    'selesai' => [
+                        'total' => count($selesai),
+                        'data' => $selesai,
+                    ],
+                ],
+            ]);
+        }
+    }
 }
