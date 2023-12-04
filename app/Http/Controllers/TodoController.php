@@ -284,10 +284,10 @@ class TodoController extends Controller
                 if($todo->status == 'revisi' || $todo->status == 'telat'){
                     $mendesak[] = $todo;
                 }
-                if($todo->status == 'dikerjakan'){
+                else if($todo->status == 'dikerjakan'){
                     $penting[] = $todo;
                 }
-                if($todo->status == 'menunggu'){
+                else if($todo->status == 'menunggu'){
                     $menunggu[] = $todo;
                 }
                 else{
