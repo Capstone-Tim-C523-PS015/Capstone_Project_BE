@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 $router->get('/', function () {
     return response()->json(['message' => 'capstone project C523-PS015 - backend']);
 });
@@ -17,7 +20,7 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->delete('/', 'UserController@delete');
 });
 
-$router->group(['prefix' => 'todo'], function() use($router){
+$router->group(['prefix' => 'todo'], function () use ($router) {
     $router->get('now', 'TodoController@now');
     $router->get('tomorrow', 'TodoController@tomorrow');
     $router->get('yesterday', 'TodoController@yesterday');
@@ -43,4 +46,14 @@ $router->group(['prefix' => 'activity'], function () use ($router) {
     $router->post('/', 'ActivityController@store');
     $router->put('/{id}', 'ActivityController@update');
     $router->delete('/{id}', 'ActivityController@delete');
+});
+
+$router->post('header', function (Request $request) {
+    return $request->headers->all();
+});
+
+$router->group(['prefix' => 'reset'], function () use($router){
+    $router->post('email', 'ResetPasswordController@email');
+    $router->get('verifyToken', 'ResetPasswordController@verifyToken');
+    $router->post('updatePassword', 'ResetPasswordController@updatePassword');
 });
