@@ -31,7 +31,7 @@ class ResetPasswordController extends Controller
         $token = bin2hex(random_bytes(32));
         try {
             Mail::send('email', ['data' => 'hello world', 'token' => $token], function($message) use ($email){
-                $message->subject('Ini subject');
+                $message->subject('Reset Password - PlanPlan');
                 $message->to($email);
             });
             Token::create([

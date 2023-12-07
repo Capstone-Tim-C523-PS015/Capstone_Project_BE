@@ -24,7 +24,7 @@
             const url = 'https://be.gunz.my.id/reset/email';
 
             axios.post(url,{
-                email: 'ggm5850@gmail.com',
+                email: document.getElementById('email').value,
             }).then(function (response) {
                 console.log(response.data);
             });

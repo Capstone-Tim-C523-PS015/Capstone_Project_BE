@@ -48,8 +48,8 @@
 
             e.preventDefault();
 
-            const new_password = document.getElementById('new_password');
-            const new_password_confirmation = document.getElementById('new_password_confirmation');
+            const new_password = document.getElementById('new_password').value;
+            const new_password_confirmation = document.getElementById('new_password_confirmation').value;
             axios.post('https://be.gunz.my.id/reset/updatePassword', {
                 new_password: new_password,
                 new_password_confirmation: new_password_confirmation,
@@ -57,6 +57,9 @@
             })
             .then(function(response){
                 console.log(response);
+                setTimeout(function(){
+                    window.location.href = 'index.html';
+                },3000)
             })
             .catch(function(error){
                 console.log(error);
