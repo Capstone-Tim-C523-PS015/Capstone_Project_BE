@@ -133,7 +133,8 @@ class UserController extends Controller
                     'message' => "password salah",
                 ], 403);
             }
-            $user->update(['password' => bcrypt($request->password)]);
+
+            $user->update(['password' => bcrypt($request->new_password)]);
 
             return response()->json([
                 'message' => "password berhasil diperbarui",
