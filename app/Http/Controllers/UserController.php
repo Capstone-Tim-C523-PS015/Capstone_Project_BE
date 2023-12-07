@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Token;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
@@ -170,6 +171,10 @@ class UserController extends Controller
             }
 
             auth()->logout();
+            $token = Token::where(['email' => $user->email])->get()->first();
+            if($token){
+                $token->delete();
+            }
             $user->delete();
 
             return response()->json([
