@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 $router->get('/', function () {
     return response()->json(['message' => 'capstone project C523-PS015 - backend']);
