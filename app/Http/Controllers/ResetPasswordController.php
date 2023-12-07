@@ -69,7 +69,7 @@ class ResetPasswordController extends Controller
             'token' => 'required',
         ]);
         if($validate->fails()){
-            return response()->json(['message' => 'data tidak valid'],400);
+            return response()->json(['message' => 'data tidak valid', 'data' => $request->all()],400);
         }
 
         $token = $request->token;

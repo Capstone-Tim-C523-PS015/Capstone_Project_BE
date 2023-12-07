@@ -1,27 +1,32 @@
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-
-    if(!token){
-        window.location.href = 'index.html';
-    }
-    axios.get(`reset/verifyToken?token=${token}`)
-    .then()
-    .catch(function(error){
-        window.location.href = 'index.html';
-    });
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change password</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        if (!token) {
+            window.location.href = 'index.html';
+        }
+        axios.get(`https://be.gunz.my.id/reset/verifyToken?token=${token}`)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log("gagal");
+                console.log(error);
+                window.location.href = 'index.html';
+            });
+    </script>
 </head>
+
 <body>
-    <form id="loginForm">
+    <form id="changePassword">
         <div class="form-group">
             <label for="new_password">new_password</label>
             <input type="text" name="new_password" id="new_password">
@@ -34,6 +39,30 @@
             <button>Ganti</button>
         </div>
     </form>
-</body>
-</html>
 
+    <script>
+        document.getElementById('changePassword').addEventListener('submit', function (e) {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+            console.log(token);
+
+            e.preventDefault();
+
+            const new_password = document.getElementById('new_password');
+            const new_password_confirmation = document.getElementById('new_password_confirmation');
+            axios.post('https://be.gunz.my.id/reset/updatePassword', {
+                new_password: new_password,
+                new_password_confirmation: new_password_confirmation,
+                token: token,
+            })
+            .then(function(response){
+                console.log(response);
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        });
+    </script>
+</body>
+
+</html>
