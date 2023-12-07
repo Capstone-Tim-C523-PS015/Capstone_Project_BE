@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot password</title>
+</head>
+<body>
+    <form id="loginForm">
+        <h1>Masukkan email anda:</h1>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email">
+        </div>
+        <br>
+        <div class="form-group">
+            <button>Kirim</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener('submit', function (e) {
+            e.preventDefault();
+            const url = 'https://be.gunz.my.id/reset/email';
+
+            axios.post(url,{
+                email: 'ggm5850@gmail.com',
+            }).then(function (response) {
+                console.log(response.data);
+            });
+        })
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>
