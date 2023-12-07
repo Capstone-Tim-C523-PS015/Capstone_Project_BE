@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
         }
         $cekToken = Token::where(['email' => $email])->get();
         if($cekToken->count() > 0){
-            return response()->json(['message' => 'email verifikasi sudah dikirim, harap cek email'],400);
+            return response()->json(['message' => 'email verifikasi sudah dikirim, harap cek spam jika email tidak ada'],400);
         }
         
         $token = bin2hex(random_bytes(32));
@@ -38,7 +38,7 @@ class ResetPasswordController extends Controller
                 'token' => $token,
                 'email' => $email,
             ]);
-            return response()->json(['message' => 'email berhasil dikirim', 'token' => $token]);
+            return response()->json(['message' => 'email berhasil dikirim, cek spam apabila email tidak tersedia', 'token' => $token]);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'email gagal dikirim', 'error' => $th->getMessage()], 400);
         }
