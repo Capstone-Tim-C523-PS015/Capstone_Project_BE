@@ -10,7 +10,7 @@ class JobsController extends Controller
     function updateStatus() {
         $kemarin = Todo::whereDate('deadline', Carbon::now()->subDay())->where(['status'=>'dikerjakan'])->get();
         $kemarin->each(function($todo){
-            $todo->update(['status' => 'terlambat']);
+            $todo->update(['status' => 'telat']);
         });
         
         $sekarang = Todo::whereDate('deadline', Carbon::now())->where(['status'=>'menunggu'])->get();
