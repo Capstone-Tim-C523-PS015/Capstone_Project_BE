@@ -57,3 +57,5 @@ $router->group(['prefix' => 'reset'], function () use($router){
     $router->get('verifyToken', 'ResetPasswordController@verifyToken');
     $router->post('updatePassword', 'ResetPasswordController@updatePassword');
 });
+
+$router->get('jobs/status', 'JobsController@updateStatus');
