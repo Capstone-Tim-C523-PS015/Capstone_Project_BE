@@ -21,6 +21,7 @@ $router->group(['prefix' => 'user'], function () use ($router) {
 
 $router->group(['prefix' => 'todo'], function () use ($router) {
     $router->get('now', 'TodoController@now');
+    $router->get('nowAndSoon', 'TodoController@nowAndSoon');
     $router->get('tomorrow', 'TodoController@tomorrow');
     $router->get('yesterday', 'TodoController@yesterday');
     $router->get('span', 'TodoController@span');

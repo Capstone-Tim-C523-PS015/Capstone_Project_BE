@@ -318,4 +318,23 @@ class TodoController extends Controller
             ]);
         }
     }
+    
+    function nowAndSoon(Request $request) {
+        if (!$request->bearerToken()) {
+            return response()->json(['message' => 'token dibutuhkan'], 401);
+        } else {
+            if (!auth()->check()) {
+                return response()->json(['message' => 'token tidak valid'], 401);
+            }
+    
+            $userId = auth()->payload()['sub'];
+            $todos = Todo::where(['userId' => $userId])->where('deadline', '>=', Carbon::today())->get();
+
+            return response()->json([
+                'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
+                'total' => $todos->count(),
+                'todos' => $todos,
+            ]);
+        }        
+    }
 }
