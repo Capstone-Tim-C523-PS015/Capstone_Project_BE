@@ -328,7 +328,7 @@ class TodoController extends Controller
             }
     
             $userId = auth()->payload()['sub'];
-            $todos = Todo::where(['userId' => $userId])->where('deadline', '>=', Carbon::today())->get();
+            $todos = Todo::where(['userId' => $userId])->whereDate('deadline', '>=', Carbon::today())->get();
 
             return response()->json([
                 'message' => $todos->count() > 0 ? "data ditemukan" : "data kosong",
