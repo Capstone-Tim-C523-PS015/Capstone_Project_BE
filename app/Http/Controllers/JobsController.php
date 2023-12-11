@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 class JobsController extends Controller
 {
     function updateStatus() {
-        $kemarin = Todo::whereDate('deadline', Carbon::now()->subDay())->where(['status'=>'dikerjakan'])->get();
+        $kemarin = Todo::whereDate('deadline', '<=', Carbon::now()->subDay())->where(['status'=>'dikerjakan'])->get(['id','status']);
         $kemarin->each(function($todo){
             $todo->update(['status' => 'telat']);
         });
