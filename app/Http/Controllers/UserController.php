@@ -62,8 +62,8 @@ class UserController extends Controller
                     return response()->json(['message' => 'data tidak valid'], 400);
                 }
 
-                $pfImage = env('APP_URL') . '/profile/default.png';
                 if ($request->file('profileImage')) {
+                    $pfImage = env('APP_URL') . '/profile/default.png';
                     $image = $request->file('profileImage');
                     if ($user->profileImage != $pfImage) {
                         $path = explode("/", $user->profileImage);
@@ -77,14 +77,20 @@ class UserController extends Controller
                     $imgName = $id . "-" . time() . "." . $image->getClientOriginalExtension();
                     $image->move(public_path('profile'), $imgName);
                     $pfImage = env('APP_URL') . '/profile/' . $imgName;
-                    $pfImage;
+                    
+                    $user->update([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'description' => $request->description,
+                        'profileImage' => $pfImage,
+                    ]);
+                }else{
+                    $user->update([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'description' => $request->description,
+                    ]);
                 }
-                $user->update([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'description' => $request->description,
-                    'profileImage' => $pfImage,
-                ]);
 
                 return response()->json([
                     'message' => "data berhasil diperbarui",
