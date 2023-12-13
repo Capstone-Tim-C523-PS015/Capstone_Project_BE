@@ -62,8 +62,9 @@ class UserController extends Controller
                     return response()->json(['message' => 'data tidak valid'], 400);
                 }
 
+                $pfImage = env('APP_URL') . '/profile/default.png';
+
                 if ($request->file('profileImage')) {
-                    $pfImage = env('APP_URL') . '/profile/default.png';
                     $image = $request->file('profileImage');
                     if ($user->profileImage != $pfImage) {
                         $path = explode("/", $user->profileImage);
@@ -85,11 +86,32 @@ class UserController extends Controller
                         'profileImage' => $pfImage,
                     ]);
                 }else{
-                    $user->update([
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'description' => $request->description,
-                    ]);
+                    if ($user->profileImage != $pfImage) {
+                        $path = explode("/", $user->profileImage);
+                        $path = array_slice($path, 3);
+                        $path = public_path() . '/' . implode("/", $path);
+    
+                        if (!file_exists($path)) {
+                            $user->update([
+                                'name' => $request->name,
+                                'email' => $request->email,
+                                'description' => $request->description,
+                                'profileImage' => $pfImage,
+                            ]);
+                        }else{
+                            $user->update([
+                                'name' => $request->name,
+                                'email' => $request->email,
+                                'description' => $request->description,
+                            ]);
+                        }
+                    }else{
+                        $user->update([
+                            'name' => $request->name,
+                            'email' => $request->email,
+                            'description' => $request->description,
+                        ]);
+                    }
                 }
 
                 return response()->json([
