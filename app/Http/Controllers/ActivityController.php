@@ -113,14 +113,14 @@ class ActivityController extends Controller
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
 
-            $isNotificate = $request->isNotificate == "true" || $request->isNotificate === true || $request->isNotificate == 1 ;
-            $activity->update($request->only([
+            $isNotificate = $request->isNotificate == "true" || $request->isNotificate === true || $request->isNotificate == 1;
+            $activity->update([
                 'title' => $request->title,
                 'description' => $request->description,
                 'category' => $request->category,
                 'deadline' => $request->deadline,
                 'isNotificate' => $isNotificate,
-            ]));
+            ]);
 
             return response()->json([
                 'message' => "data berhasil diperbarui",
