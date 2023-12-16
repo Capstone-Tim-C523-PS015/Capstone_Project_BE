@@ -38,10 +38,12 @@ class TodoController extends Controller
                 return response()->json(['message' => 'token tidak valid'], 401);
             }
 
-            $todo = Todo::find($id);
-            if (!$todo) {
+            $userId = auth()->payload()['sub'];
+            $todos = Todo::where(['id'=>$id, 'userId' => $userId]) ->get();
+            if ($todos->count() < 1) {
                 return response()->json(['message' => 'data tidak ditemukan'], 404);
             }
+            $todo = $todos->first();
 
             return response()->json([
                 'message' => "data ditemukan",
