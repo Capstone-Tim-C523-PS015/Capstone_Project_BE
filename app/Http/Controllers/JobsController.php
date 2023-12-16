@@ -17,6 +17,11 @@ class JobsController extends Controller
         $sekarang->each(function($todo){
             $todo->update(['status' => 'dikerjakan']);
         });
+
+        $kemarin = Todo::where('deadline', '>', Carbon::now())->where(['status'=>'telat'])->get(['id','status']);
+        $kemarin->each(function($todo){
+            $todo->update(['status' => 'menunggu']);
+        });
         
         return response()->json([
             'message' => 'data berhasil diperbarui',
