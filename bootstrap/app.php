@@ -80,8 +80,10 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
+    Nord\Lumen\Cors\CorsMiddleware::class,
 ]);
+$app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
 $app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 /*
