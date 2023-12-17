@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\ControllerMakeCommand::class,
-        Commands\UpdateTodo::class
+        // Commands\UpdateTodo::class
     ];
 
     /**
@@ -25,6 +25,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('jobs:todo')->everyMinute();
+        // $schedule->command('jobs:todo')->everyMinute();
     }
 }
