@@ -35,7 +35,7 @@ class UpdateTodo extends Command
                 $todo->update(['status' => 'menunggu']);
             });
             
-            $pesan = date("Y-m-d H:i:s").": Data berhasil diperbarui\n";
+            $pesan = Carbon::now().": Data berhasil diperbarui\n";
             $logsFile = fopen('todo.log','a');
             fwrite($logsFile, $pesan);
             fclose($logsFile);

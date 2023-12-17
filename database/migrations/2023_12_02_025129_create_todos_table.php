@@ -15,7 +15,7 @@ return new class extends Migration
             $table->timestamp('deadline');
             $table->enum('status', ['menunggu', 'dikerjakan', 'telat', 'selesai', 'revisi']);
             $table->timestamps();
-            $table->foreignId('userId')->references('id')->on('users');
+            $table->foreignId('userId')->references('id')->on('users')->onDelete('cascade');
         });
     }
     

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('isNotificate');
             $table->enum('category', ['task', 'event']);
             $table->timestamps();
-            $table->foreignId('userId')->references('id')->on('users');
+            $table->foreignId('userId')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
