@@ -34,6 +34,7 @@ class CorsMiddleware
             $response->header($key, $value);
         }
 
-        return $response;
+        return response()->json($response);
+        // return $response;
     }
 }
