@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\ControllerMakeCommand::class
+        Commands\ControllerMakeCommand::class,
+        Commands\UpdateTodo::class
     ];
 
     /**
@@ -24,6 +25,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->command('jobs:todo')->everyMinute();
     }
 }
