@@ -148,8 +148,7 @@ class UserController extends Controller
                 'new_password_confirmation' => 'required',
             ]);
             if ($validator->fails()) {
-                return $validator->getMessageBag();
-                return response()->json(['message' => 'data tidak valid'], 400);
+                return response()->json(['message' => 'data tidak valid', 'error' => $validator->getMessageBag()], 400);
             }
 
             $id = auth()->payload()['sub'];
