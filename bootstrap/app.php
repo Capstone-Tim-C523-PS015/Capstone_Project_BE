@@ -81,9 +81,7 @@ $app->routeMiddleware([
 ]);
 $app->middleware([
     // App\Http\Middleware\CorsMiddleware::class,
-    Nord\Lumen\Cors\CorsMiddleware::class,
 ]);
-$app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
 $app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 /*
