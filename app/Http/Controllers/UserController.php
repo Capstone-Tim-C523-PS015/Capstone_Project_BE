@@ -56,7 +56,7 @@ class UserController extends Controller
                     'name' => 'required',
                     'email' => 'required',
                     'description' => 'required',
-                    'profileImage' => 'mimes:jpg,png',
+                    'profileImage' => 'mimes:jpg,png|max:1024',
                 ]);
                 if ($validator->fails()) {
                     return response()->json(['message' => 'data tidak valid'], 400);
