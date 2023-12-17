@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Tes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 $router->get('/', function () {
     return response()->json(['message' => 'capstone project C523-PS015 - backend']);
@@ -59,3 +61,11 @@ $router->group(['prefix' => 'reset'], function () use($router){
 });
 
 $router->get('jobs/status', 'JobsController@updateStatus');
+$router->post('tes', function (Request $request){
+    $tes = Tes::create([
+        'deadline' => $request->deadline,
+    ]);
+    return response()->json([
+        'tes' => $tes,
+    ]);
+});

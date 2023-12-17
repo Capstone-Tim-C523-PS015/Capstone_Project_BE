@@ -68,7 +68,11 @@ class TodoController extends Controller
                 'status' => 'required',
             ]);
             if ($validator->fails()) {
-                return response()->json(['message' => 'data tidak valid', 'request' => $request->all(), 'error'=> $validator->getMessageBag()], 400);
+                return response()->json([
+                    'message' => 'data tidak valid',
+                    'request' => $request->all(),
+                    'error'=> $validator->getMessageBag()
+                ], 400);
             }
 
             $userId = auth()->payload()['sub'];
