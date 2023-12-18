@@ -93,6 +93,6 @@ class AuthController extends Controller
         // header('Access-Control-Allow-Origin: *');
         // header('Access-Control-Allow-Methods: *');
         // header('Access-Control-Allow-Headers: *');
-        return response()->json(['message' => 'logout berhasil']);
+        return response()->json(['message' => 'logout berhasil'])->header('Access-Control-Allow-Origin', '*');
     }
 }
