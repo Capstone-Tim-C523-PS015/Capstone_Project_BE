@@ -34,36 +34,41 @@
 
     document.getElementById('loginForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        axios.post(url, {
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value,
-        })
-        .then(res => {
-            const token = res.data.token;
-            console.log(token);
 
-            axios.get(todoUrl,{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+        try {
+            axios.post(url, {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
             })
             .then(res => {
-                console.log(res);
-
-                axios.post(logoutUrl,{},{
+                const token = res.data.token;
+                console.log(token);
+    
+                axios.get(todoUrl,{
                     headers: {
                         Authorization: `Bearer ${token}`,
-                        "Access-Control-Allow-Origin": "*",
                     },
                 })
                 .then(res => {
-                    console.log(res)
+                    console.log(res);
+    
+                    axios.post(logoutUrl,{},{
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            // "Access-Control-Allow-Origin": "*",
+                        },
+                    })
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(err => console.log(err));
                 })
                 .catch(err => console.log(err));
+    
             })
             .catch(err => console.log(err));
-
-        })
-        .catch(err => console.log(err));
+        } catch (error) {
+            console.log(error);
+        }
     })
 </script>
