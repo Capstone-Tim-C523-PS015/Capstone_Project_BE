@@ -43,7 +43,11 @@ class ResetPasswordController extends Controller
             ]);
             return response()->json(['message' => 'email berhasil dikirim, cek spam apabila email tidak tersedia', 'token' => $token]);
         } catch (\Throwable $e) {
-            return response()->json(['message' => 'email gagal dikirim', 'error' => $e->getTrace()], 400);
+            return response()->json([
+                'message' => 'email gagal dikirim',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTrace(),
+            ], 400);
         }
     }
 
