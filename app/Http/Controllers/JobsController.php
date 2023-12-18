@@ -25,6 +25,7 @@ class JobsController extends Controller
         
         return response()->json([
             'message' => 'data berhasil diperbarui',
+            'todo' => Todo::find(27),
             'data' => Carbon::today(),
         ]);
     }
