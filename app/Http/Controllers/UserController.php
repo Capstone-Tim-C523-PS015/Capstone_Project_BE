@@ -62,7 +62,7 @@ class UserController extends Controller
                     return response()->json(['message' => 'data tidak valid'], 400);
                 }
 
-                $pfImage = 'https://be-2.gunz.my.id' . '/profile/default.png';
+                $pfImage = env('APP_URL') . '/profile/default.png';
 
                 if ($request->file('profileImage')) {
                     $image = $request->file('profileImage');
@@ -78,7 +78,7 @@ class UserController extends Controller
                     $imgName = $id . "-" . time() . "." . $image->getClientOriginalExtension();
                     $image->move(public_path('profile'), $imgName);
                     chmod(public_path('profile').'/'. $imgName, 0666);
-                    $pfImage = 'https://be-2.gunz.my.id' . '/profile/' . $imgName;
+                    $pfImage = env('APP_URL') . '/profile/' . $imgName;
                     
                     $user->update([
                         'name' => $request->name,
@@ -187,7 +187,7 @@ class UserController extends Controller
             }
 
             # Remove profile image
-            $pfImage = 'https://be-2.gunz.my.id' . '/profile/default.png';
+            $pfImage = env('APP_URL') . '/profile/default.png';
             if ($user->profileImage != $pfImage) {
                 $path = explode("/", $user->profileImage);
                 $path = array_slice($path, 3);
