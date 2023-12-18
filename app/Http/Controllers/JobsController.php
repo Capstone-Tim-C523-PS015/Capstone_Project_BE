@@ -13,7 +13,7 @@ class JobsController extends Controller
             $todo->update(['status' => 'telat']);
         });
         
-        $sekarang = Todo::whereDate('deadline', '=', Carbon::today())->where(['status'=>'menunggu'])->get(['id','status']);
+        $sekarang = Todo::whereDate('deadline', '=', Carbon::now())->where(['status'=>'menunggu'])->get(['id','status']);
         $sekarang->each(function($todo){
             $todo->update(['status' => 'dikerjakan']);
         });
