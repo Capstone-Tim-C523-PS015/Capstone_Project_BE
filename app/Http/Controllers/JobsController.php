@@ -8,15 +8,16 @@ use Illuminate\Support\Carbon;
 class JobsController extends Controller
 {
     function updateStatus() {
+        $sekarang = Todo::whereDate('deadline', '=', Carbon::now())->get(['id','status']);
+        $sekarang->each(function($todo){
+            $todo->update(['status' => 'dikerjakan']);
+        });
+        
         $kemarin = Todo::where('deadline', '<', Carbon::now())->where(['status'=>'dikerjakan'])->orWhere(['status'=>'menunggu'])->get(['id','status']);
         $kemarin->each(function($todo){
             $todo->update(['status' => 'telat']);
         });
         
-        $sekarang = Todo::whereDate('deadline', '=', Carbon::now())->get(['id','status']);
-        $sekarang->each(function($todo){
-            $todo->update(['status' => 'dikerjakan']);
-        });
 
         $kemarin = Todo::where('deadline', '>', Carbon::now())->where(['status'=>'telat'])->get(['id','status']);
         $kemarin->each(function($todo){
