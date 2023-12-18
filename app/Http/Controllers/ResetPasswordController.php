@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Token;
 use App\Models\User;
+use Error;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,7 +42,7 @@ class ResetPasswordController extends Controller
                 'email' => $email,
             ]);
             return response()->json(['message' => 'email berhasil dikirim, cek spam apabila email tidak tersedia', 'token' => $token]);
-        } catch (\Throwable $th) {
+        } catch (Error $th) {
             return response()->json(['message' => 'email gagal dikirim', 'error' => $th], 400);
         }
     }
