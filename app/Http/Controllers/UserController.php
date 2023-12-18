@@ -77,6 +77,7 @@ class UserController extends Controller
                     }
                     $imgName = $id . "-" . time() . "." . $image->getClientOriginalExtension();
                     $image->move(public_path('profile'), $imgName);
+                    chmod(public_path('profile').'/'. $imgName, 0666);
                     $pfImage = 'https://be-2.gunz.my.id' . '/profile/' . $imgName;
                     
                     $user->update([
