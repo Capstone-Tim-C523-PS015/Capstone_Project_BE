@@ -28,8 +28,18 @@
 </html>
 
 <script>
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2JlLTIuZ3Vuei5teS5pZC9hdXRoL2xvZ2luIiwiaWF0IjoxNzAyODMwNjA2LCJuYmYiOjE3MDI4MzA2MDYsImp0aSI6IlVza3Vldk45V25TV2puUnIiLCJzdWIiOiIxIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.GkDRwLoyMqqPFnloXJ6s3O0FUMyoVqNptE7ErA_0scI';
+    const url = 'https://be-2.gunz.my.id/auth/login';
+    const todoUrl = 'https://be-2.gunz.my.id/todo';
+    axios.get(todoUrl,{
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+
     document.getElementById('loginForm').addEventListener('submit', function (e) {
-        const url = 'https://be.gunz.my.id';
         e.preventDefault();
         axios.post(url, {
             email: document.getElementById('email').value,
