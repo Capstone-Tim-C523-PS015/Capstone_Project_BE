@@ -89,7 +89,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'token tidak valid'], 400);
         }
 
-        Auth::logout();
+        auth()->logout();
         return response()->json(['message' => 'logout berhasil']);
     }
 }
