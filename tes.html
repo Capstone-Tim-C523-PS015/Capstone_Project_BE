@@ -11,7 +11,7 @@
     <form id="loginForm">
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" name="email" id="email" value="gunz@mail.com">
+            <input type="text" name="email" autofocus id="email" value="gunz@mail.com">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
@@ -28,9 +28,11 @@
 </html>
 
 <script>
-    const url = 'https://be-2.gunz.my.id/auth/login';
-    const todoUrl = 'https://be-2.gunz.my.id/todo';
-    const logoutUrl = 'https://be-2.gunz.my.id/auth/logout';
+    // const base = 'http://127.0.0.1:8080';
+    const base = 'https://be-2.gunz.my.id';
+    const url = `${base}/auth/login`;
+    const todoUrl = `${base}/todo`;
+    const logoutUrl = `${base}/auth/logout`;
 
     document.getElementById('loginForm').addEventListener('submit', function (e) {
         e.preventDefault();
@@ -62,6 +64,20 @@
                         console.log(res)
                     })
                     .catch(err => console.log(err));
+
+                    // fetch(logoutUrl, {
+                    //     method: 'POST',
+                    //     mode: 'no-cors',
+                    //     headers: {
+                    //         Authorization: `Bearer ${token}`,
+                    //         // "Access-Control-Allow-Origin": "*",
+                    //     },
+                    // }).then(res => {
+                    //     console.log(res);
+                    // }).catch(err => {
+                    //     console.log('error1');
+                    //     console.log(err);
+                    // })
                 })
                 .catch(err => console.log(err));
     

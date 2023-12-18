@@ -198,7 +198,7 @@ class UserController extends Controller
                 }
             }
 
-            auth()->logout();
+            // auth()->logout();
             $token = Token::where(['email' => $user->email])->get()->first();
             if($token){
                 $token->delete();
