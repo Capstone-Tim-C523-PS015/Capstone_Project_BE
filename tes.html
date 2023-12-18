@@ -37,8 +37,6 @@
         axios.post(url, {
             email: document.getElementById('email').value,
             password: document.getElementById('password').value,
-        },{
-            'Access-Control-Allow-Origin' : '*',
         })
         .then(res => {
             const token = res.data.token;
@@ -51,10 +49,11 @@
             })
             .then(res => {
                 console.log(res);
-                
+
                 axios.post(logoutUrl,{},{
                     headers: {
                         Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*",
                     },
                 })
                 .then(res => {

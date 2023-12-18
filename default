@@ -12,18 +12,18 @@ server {
     charset utf-8;
 
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
-	    add_header Access-Control-Allow-Origin *;
-        #add_header Access-Control-Allow-Methods GET, POST, OPTIONS, PUT, DELETE;
-        #add_header Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range;
+        #try_files $uri $uri/ /index.php?$query_string;
+	    add_header Access-Control-Allow-Origin "*";
+        #add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE";
+        #add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range";
     }
 
 
     error_page 404 /index.php;
 
     location ~ \.php$ {
-	include snippets/fastcgi-php.conf;
-	include fastcgi_params;
+        include snippets/fastcgi-php.conf;
+        include fastcgi_params;
 
         fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
@@ -33,6 +33,9 @@ server {
         deny all;
     }
 
+    location ~* \.(eot|ttf|woff|woff2)$ {
+        add_header Access-Control-Allow-Origin *;
+    }
 }
 server {
     if ($host = be-2.gunz.my.id) {
